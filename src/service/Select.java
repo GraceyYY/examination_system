@@ -135,5 +135,49 @@ public class Select {
         }
     }
 
+    public static void getAllSubjectsInfo(Connection connection) {
+        try (Statement st = Database.getStatement(connection);
+             ResultSet rs = Database.executeSQL(st, "SELECT * FROM subjects")) {
+            while (rs.next()) {
+                int id = rs.getInt("subject_id");
+                String name = rs.getString("name");
+                String exam = rs.getNString("exam");
+                int total = rs.getInt("total_score");
+                System.out.println("课程编号：" + id + "，课程名称：" + name + "，考试信息：" + exam + "，总分：" + total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getSubjectByName(Connection connection, String name) {
+        try (Statement st = Database.getStatement(connection);
+             ResultSet rs = Database.executeSQL(st, "SELECT * FROM subjects WHERE name =\"" + name + "\"")) {
+            while (rs.next()) {
+                int id = rs.getInt("subject_id");
+                String exam = rs.getNString("exam");
+                int total = rs.getInt("total_score");
+                System.out.println("课程编号：" + id + "，课程名称：" + name + "，考试信息：" + exam + "，总分：" + total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getSubjectByTeacher(Connection connection, int teacherId) {
+        try (Statement st = Database.getStatement(connection);
+             ResultSet rs = Database.executeSQL(st, "SELECT * FROM teacher_subject INNER JOIN subjects USING(subject_id) WHERE teacher_id=" + teacherId)) {
+            while (rs.next()) {
+                int id = rs.getInt("subject_id");
+                String name = rs.getString("name");
+                String exam = rs.getNString("exam");
+                int total = rs.getInt("total_score");
+                System.out.println("课程编号：" + id + "，课程名称：" + name + "，考试信息：" + exam + "，总分：" + total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
