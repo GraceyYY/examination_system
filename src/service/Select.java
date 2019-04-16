@@ -60,7 +60,7 @@ public class Select {
     private static void getScoreByStudentId(Connection connection, int id) {
         String scores = "";
         try (Statement st = Database.getStatement(connection);
-             ResultSet rs = Database.executeSQL(st,"SELECT name FROM students WHERE student_id = " + id)) {
+             ResultSet rs = Database.executeSQL(st, "SELECT name FROM students WHERE student_id = " + id)) {
             while (rs.next()) {
                 getScoreByStudentName(connection, rs.getString("name"));
             }
@@ -98,9 +98,38 @@ public class Select {
             while (rs.next()) {
                 String studentName = rs.getString("name");
                 int score = rs.getInt("score");
-                scores += (studentName + "的成绩：" +"(" + subjectName + ": " + score + ")\n" );
+                scores += (studentName + "的成绩：" + "(" + subjectName + ": " + score + ")\n");
             }
             System.out.println(scores);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getAllTeachersInfo(Connection connection) {
+        try (Statement st = Database.getStatement(connection);
+             ResultSet rs = Database.executeSQL(st, "SELECT * FROM teachers")) {
+            while (rs.next()) {
+                int id = rs.getInt("teacher_id");
+                String name = rs.getString("name");
+                String gender = rs.getNString("gender");
+                int age = rs.getInt("age");
+                System.out.println("教师编号：" + id + "，姓名：" + name + "，年龄：" + age + "，性别：" + gender);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getTeacherByName(Connection connection, String name) {
+        try (Statement st = Database.getStatement(connection);
+             ResultSet rs = Database.executeSQL(st, "SELECT * FROM teachers WHERE name = \"" + name + "\"")) {
+            while (rs.next()) {
+                int id = rs.getInt("teacher_id");
+                String gender = rs.getNString("gender");
+                int age = rs.getInt("age");
+                System.out.println("教师编号：" + id + "，姓名：" + name + "，年龄：" + age + "，性别：" + gender);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
