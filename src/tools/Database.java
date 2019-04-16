@@ -7,7 +7,7 @@ public class Database {
     private static final String NAME = "root";
     private static final String PASSWORD = "Ylazy19911217";
 
-    private static Connection getConnect() {
+    public static Connection getConnect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -24,7 +24,7 @@ public class Database {
         return conn;
     }
 
-    private static Statement getStatement(Connection connection) {
+    public static Statement getStatement(Connection connection) {
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -35,7 +35,7 @@ public class Database {
         return statement;
     }
 
-    private static ResultSet executeSQL(Statement statement, String query) {
+    public static ResultSet executeSQL(Statement statement, String query) {
         ResultSet rs = null;
         try {
             rs = statement.executeQuery(query);
@@ -46,7 +46,7 @@ public class Database {
         return rs;
     }
 
-    private static void closeConnect(ResultSet rs, Statement st, Connection conn) {
+    public static void closeConnect(ResultSet rs, Statement st, Connection conn) {
         if (rs != null) {
             try {
                 rs.close();
